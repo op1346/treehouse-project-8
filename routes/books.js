@@ -29,13 +29,27 @@ router.get('/new', (req, res) => {
 //POST create Book
 router.post('/', asyncHandler(async (req, res)=> {
   const book = await Book.create();
-  res.redirect("/")
-}))
+  res.redirect("/new-book", {book, title: book.title});
+}));
 
 //GET individual Book detail
+router.get("/:id", asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  res.render("books/", {book, title: book.title});
+}));
 
 //Updates book
+router.post('/:id', asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  await book.update();
+  res.redirect();
+}));
 
 //Delete book
+router.post('/:id/delete', asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  await book.destroy();
+  res.redirect();
+}));
 
 module.exports = router;
