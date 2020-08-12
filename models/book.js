@@ -8,8 +8,14 @@ module.exports = (sequelize) => {
   }
   Book.init({
     //title and author will always have values
-    title: Sequelize.STRING,
-    author: Sequelize.STRING,
+    title: {
+      Sequelize.STRING,
+      allowNull: false
+    },
+    author: {
+      Sequelize.STRING,
+      allowNull: false
+    },
     genre: Sequelize.STRING,
     year: Sequelize.INTEGER
   }, {sequelize});
