@@ -1,8 +1,6 @@
 extends ../layout
 
 block content
-  title= title
   h1 New Book
-
-  form(action="/new", method="post")
+  form(action="/books/new", method="post")
     include form

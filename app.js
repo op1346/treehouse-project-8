@@ -38,8 +38,4 @@ app.use( (err, req, res, next) => {
   res.render('error');
 });
 
-app.listen(3000, () => {
-  console.log('This app is on localhost:3000');
-});
-
 module.exports = app;
