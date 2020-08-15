@@ -3,6 +3,12 @@ extends ../layout
 block content
   h2= title
 
-  form(action="/books"+ book.id +'/', method="post")
+  form(action="/books/"+ book.id, method="post")
     include form
-
+  p
+    input(type='submit', name='update', value='Update')
+    form(method='post', action='')
+  p
+    input(type='submit', name='delete', value='Delete')
+  p
+    a.button(href='/books') Home
