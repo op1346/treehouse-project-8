@@ -7,18 +7,16 @@ module.exports = (sequelize) => {
     //title and author will always have values
     title: {
       type: Sequelize.STRING,
-      allowNull: false,
       validate: {
-        notNull: {
+        notEmpty: {
           msg: 'Please provide a value for "title"'
         },
       },
     },
     author: {
      type: Sequelize.STRING,
-      allowNull: false,
       validate: {
-        notNull: {
+        notEmpty: {
           msg: 'Please provide a value for "author"'
         },
       },
