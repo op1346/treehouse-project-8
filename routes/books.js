@@ -38,7 +38,6 @@ router.post('/new', asyncHandler(async (req, res) => {
       throw error;
     }
   }
-
 }));
 
 //shows book detail form
@@ -50,9 +49,24 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 //updates book info
 router.post('/:id', asyncHandler(async (req, res) => {
-  const book = await Book.findByPk(req.params.id);
-  await book.update(req.body);
-  res.redirect('/');
+  let book;
+  try {
+    book = await Book.findByPk(req.params.id);
+    if(book) {
+      await book.update(req.body);
+      res.redirect('/');
+    } else {
+      res.sendStatus(404);
+    }
+  } catch(error) {
+    if(error.name === 'SequelizeValidationError') {
+      book = await Book.build(req.body);
+      book.id = req.params.id;
+      res.render('books/update-book', {book, errors: error.errors, title:'Edit Book'})
+    } else {
+      throw error;
+    }
+  }
 }));
 
 //deletes a book
