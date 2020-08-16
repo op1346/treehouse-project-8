@@ -8,7 +8,7 @@ function asyncHandler(cb) {
     try {
       await cb(req, res, next)
     } catch(error) {
-      res.status(500).send(error);
+      next(error);
     }
   }
 }
@@ -35,7 +35,7 @@ router.post('/new', asyncHandler(async (req, res) => {
       book = await Book.build(req.body);
       res.render('books/new-book', {book, errors: error.errors, title: 'New Book'})
     } else {
-      throw error;
+      res.render('error');
     }
   }
 }));
@@ -46,7 +46,10 @@ router.get('/:id', asyncHandler(async (req, res) => {
   if(book) {
     res.render('books/update-book', {book, title: book.title});
   } else {
-    res.sendStatus(404);
+    const err = new Error();
+    err.status = 404;
+    err.message = "Looks like the page that you requested doesn't exist!";
+    throw err;
   }
 }));
 
@@ -59,7 +62,10 @@ router.post('/:id', asyncHandler(async (req, res) => {
       await book.update(req.body);
       res.redirect('/');
     } else {
-      res.sendStatus(404);
+      const err = new Error();
+      err.status = 404;
+      err.message = "Looks like the page that you requested doesn't exist!";
+      throw err;
     }
   } catch(error) {
     if(error.name === 'SequelizeValidationError') {
